@@ -270,7 +270,7 @@ function App() {
                 <div className="hidden lg:w-1/3 h-full flex flex-col justify-end lg:justify-center items-center pointer-events-none mt-6 lg:mt-0">
                     <div className="relative robot-float pointer-events-auto">
                         <img 
-                            src={`public/assets/modules/robo.png`}
+                            src={`assets/modules/robo.png`}
                             onError={(e) => {
                                 e.target.style.display='none';
                             }}
@@ -330,7 +330,7 @@ function App() {
                                 </div>
                                 <div className="robot-wrapper">
                                     <img 
-                                        src="public/assets/modules/robo.png" 
+                                        src="assets/modules/robo.png" 
                                         onError={(e) => e.target.style.display='none'} 
                                         alt="" 
                                         className="robot-img" 
@@ -379,7 +379,7 @@ function App() {
                                 })}
                             >
                                 <img 
-                                    src={`public/assets/wallpapers/mod-${activeModuleId}-sub-${idx}.png`} 
+                                    src={`assets/wallpapers/mod-${activeModuleId}-sub-${idx}.png`} 
                                     className="card-bg-image" 
                                     alt="Background"
                                     onError={(e) => {

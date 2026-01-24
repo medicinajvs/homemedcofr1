@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: "/homemedcoftec/", // <--- TEM QUE SER EXATAMENTE O NOME DO REPOSITÓRIO
+  base: "/homemedcofr1/", // <--- TEM QUE SER EXATAMENTE O NOME DO REPOSITÓRIO
 })

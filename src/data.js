@@ -663,8 +663,7 @@ export const modulesData = [
             { title: "Corpo Estranho (Ingestão e Aspiração)", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=40&submodulo=4" },
             { title: "Cetoacidose Diabética", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=40&submodulo=5" },
             { title: "Sedoanalgesia e Sequência Rápida", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=40&submodulo=6" },
-            { title: "Distúrbios Hidroeletrolíticos e Ácido-Básicos", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=40&submodulo=7" },
-            { title: "BRUE e Morte Encefálica", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=40&submodulo=8" }
+            { title: "Distúrbios Hidroeletrolíticos e Ácido-Básicos", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=40&submodulo=7" }
         ]
     },
     // --- Módulo 41: Especialidades Pediátricas ---
@@ -703,8 +702,7 @@ export const modulesData = [
         submodules: [
             { title: "Abortamento (Legal e Espontâneo)", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=43&submodulo=0" },
             { title: "Gravidez Ectópica", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=43&submodulo=1" },
-            { title: "Doença Trofoblástica Gestacional", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=43&submodulo=2" },
-            { title: "Hiperêmese (se Houver)", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=43&submodulo=3" }
+            { title: "Doença Trofoblástica Gestacional", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=43&submodulo=2" }
         ]
     },
     // --- Módulo 44: Patologia da 2ª Metade e Puerpério ---
@@ -748,9 +746,8 @@ export const modulesData = [
             { title: "Infecções Genitais (Corrimentos, Úlceras, DSTs)", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=46&submodulo=0" },
             { title: "Doença Inflamatória Pélvica (DIP)", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=46&submodulo=1" },
             { title: "Endometriose e Adenomiose", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=46&submodulo=2" },
-            { title: "Miomatose Uterina e Pólipos", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=46&submodulo=3" },
-            { title: "Doenças da Vulva e Vagina", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=46&submodulo=4" },
-            { title: "Dor Pélvica e Violência Sexual", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=46&submodulo=5" }
+            { title: "Doenças da Vulva e Vagina", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=46&submodulo=3" },
+            { title: "Dor Pélvica e Violência Sexual", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=46&submodulo=4" }
         ]
     },
     // --- Módulo 47: Uroginecologia ---
@@ -759,8 +756,7 @@ export const modulesData = [
         title: "Uroginecologia",
         submodules: [
             { title: "Anatomia e Propedêutica (Estudo Urodinâmico)", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=47&submodulo=0" },
-            { title: "Incontinência Urinária (Esforço, Urgência)", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=47&submodulo=1" },
-            { title: "Prolapsos Genitais", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=47&submodulo=2" }
+            { title: "Prolapsos Genitais", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=47&submodulo=1" }
         ]
     },
     // --- Módulo 48: Oncologia e Mastologia ---
@@ -772,9 +768,8 @@ export const modulesData = [
             { title: "Câncer de Colo de Útero e Lesões Precursoras (HPV)", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=48&submodulo=1" },
             { title: "Câncer de Endométrio e Hiperplasia", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=48&submodulo=2" },
             { title: "Câncer de Ovário e Tumores Anexiais", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=48&submodulo=3" },
-            { title: "Câncer de Vulva/Vagina", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=48&submodulo=4" },
-            { title: "Patologia Benigna da Mama", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=48&submodulo=5" },
-            { title: "Câncer de Mama (Tipos, Tratamento)", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=48&submodulo=6" }
+            { title: "Patologia Benigna da Mama", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=48&submodulo=4" },
+            { title: "Câncer de Mama (Tipos, Tratamento)", desc: "Aulas e Materiais de estudo.", duration: "30 min", link: "https://medicinajvs.github.io/medcofr1/?modulo=48&submodulo=5" }
         ]
     },
     // --- Módulo 49: Neuropediatria ---

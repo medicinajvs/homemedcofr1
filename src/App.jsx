@@ -20,10 +20,10 @@ import {
 } from '@phosphor-icons/react';
 
 function App() {
-  // --- PEGA A URL BASE (Seja localhost ou /medcof/) ---
+  // --- CONFIGURAÇÃO: URL BASE ---
   const baseUrl = import.meta.env.BASE_URL;
 
-  // --- Estados e Dados ---
+  // --- ESTADOS E DADOS ---
   const [activeModuleId, setActiveModuleId] = useState(modulesData[0]?.id || 1);
   
   const [lastSession, setLastSession] = useState({ 
@@ -40,21 +40,24 @@ function App() {
   
   const swiperRef = useRef(null);
 
-  // Atualiza os dados quando o módulo muda
+  // --- EFEITOS ---
+  // Atualiza os dados ativos quando o ID do módulo muda
   useEffect(() => {
     const found = modulesData.find(m => m.id === activeModuleId);
     if (found) setActiveModuleData(found);
   }, [activeModuleId]);
 
-  // Função para continuar de onde parou
+  // --- HANDLERS ---
   const handleContinueSession = () => {
     setActiveModuleId(lastSession.moduleId);
     
+    // Sincroniza o Swiper
     if (swiperRef.current) {
         const moduleIndex = modulesData.findIndex(m => m.id === lastSession.moduleId);
         if (moduleIndex >= 0) swiperRef.current.slideToLoop(moduleIndex);
     }
 
+    // Scroll suave e destaque visual
     setTimeout(() => {
       const cardId = `submodule-${lastSession.moduleId}-${lastSession.submoduleIndex}`;
       const element = document.getElementById(cardId);
@@ -66,6 +69,14 @@ function App() {
     }, 300);
   };
 
+  const handleSlideClick = (mod, index) => {
+    setActiveModuleId(mod.id);
+    if (swiperRef.current) {
+        swiperRef.current.slideToLoop(index); 
+    }
+  };
+
+  // --- FILTRAGEM (LIVE SEARCH) ---
   const getFilteredSubmodules = () => {
     if (searchQuery.length < 2) return null;
     let results = [];
@@ -87,16 +98,10 @@ function App() {
   const searchResults = getFilteredSubmodules();
   const displayingSubmodules = searchResults ? searchResults : (activeModuleData.submodules || []);
 
+  // --- ESTATÍSTICAS ---
   const statsMaterials = activeModuleData?.stats?.materials || 0;
   const statsFlashcards = activeModuleData?.stats?.flashcards || 0;
   const statsSubmodules = activeModuleData?.submodules ? activeModuleData.submodules.length : 0;
-
-  const handleSlideClick = (mod, index) => {
-    setActiveModuleId(mod.id);
-    if (swiperRef.current) {
-        swiperRef.current.slideToLoop(index); 
-    }
-  };
 
   const navLinksList = ['Home', 'Acompanhamento', 'Cronograma', 'Material de Apoio', 'QBank'];
 
@@ -105,8 +110,9 @@ function App() {
       
       {/* ================= HEADER ================= */}
       <header className="bg-[#0b1121] border-b border-slate-800 px-6 py-3 z-50 sticky top-0">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between max-w-7xl mx-auto w-full">
           <div className="flex items-center gap-8">
+            {/* Logo */}
             <div className="flex items-center gap-2 cursor-pointer group">
                 <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold italic group-hover:scale-110 transition text-white">
                     E
@@ -116,6 +122,7 @@ function App() {
                 </span>
             </div>
             
+            {/* Nav Desktop */}
             <nav className="hidden lg:flex gap-6 text-sm font-medium">
               {navLinksList.map((link) => (
                 <a 
@@ -131,6 +138,7 @@ function App() {
           </div>
 
           <div className="flex-1 flex justify-end md:justify-end gap-4">
+             {/* Dropdown de Curso */}
              <div className="relative">
                 <button 
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -169,6 +177,7 @@ function App() {
                 )}
              </div>
              
+             {/* Ações de Usuário */}
              <div className="flex items-center gap-4 border-l border-slate-700 pl-4 relative">
                 <div className="relative cursor-pointer hover:bg-white/5 p-2 rounded-full transition">
                     <Bell size={20} className="text-gray-300" />
@@ -203,37 +212,39 @@ function App() {
       </header>
 
       {/* ================= BARRA DE AÇÕES ================= */}
-      <div className="w-full bg-[#020617] px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4 z-40 relative">
-        <div className="relative w-full md:w-[480px]">
-           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <MagnifyingGlass size={18} className="text-slate-500" />
-           </div>
-           <input 
-             type="text" 
-             placeholder="Pesquisar Módulos, Aulas, Questões..." 
-             className="w-full bg-[#0b1121] border border-slate-800 focus:border-blue-600 text-slate-200 text-sm rounded-full pl-11 pr-4 h-12 transition-all outline-none placeholder:text-slate-600"
-             value={searchQuery}
-             onChange={(e) => setSearchQuery(e.target.value)}
-           />
-        </div>
-        
-        <div className="flex items-center gap-3">
-            <button 
-                onClick={handleContinueSession} 
-                className="bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold px-6 h-10 rounded-full shadow-lg shadow-blue-900/20 transition-all transform hover:scale-105"
-            >
-                Continuar de onde parei
-            </button>
+      <div className="w-full bg-[#020617] px-6 py-5 flex flex-col md:flex-row items-center justify-center gap-4 z-40 relative border-b border-slate-800/50">
+        <div className="w-full max-w-7xl flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="relative w-full md:w-[480px]">
+               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <MagnifyingGlass size={18} className="text-slate-500" />
+               </div>
+               <input 
+                 type="text" 
+                 placeholder="Pesquisar Módulos, Aulas, Questões..." 
+                 className="w-full bg-[#0b1121] border border-slate-800 focus:border-blue-600 text-slate-200 text-sm rounded-full pl-11 pr-4 h-12 transition-all outline-none placeholder:text-slate-600"
+                 value={searchQuery}
+                 onChange={(e) => setSearchQuery(e.target.value)}
+               />
+            </div>
             
-            <button className="bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white text-sm font-bold px-6 h-10 rounded-full shadow-lg shadow-fuchsia-900/20 transition-all transform hover:scale-105 flex items-center gap-2">
-                <Faders size={16} weight="bold" />
-                Customizar a página
-            </button>
+            <div className="flex items-center gap-3">
+                <button 
+                    onClick={handleContinueSession} 
+                    className="bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold px-6 h-10 rounded-full shadow-lg shadow-blue-900/20 transition-all transform hover:scale-105"
+                >
+                    Continuar de onde parei
+                </button>
+                
+                <button className="bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white text-sm font-bold px-6 h-10 rounded-full shadow-lg shadow-fuchsia-900/20 transition-all transform hover:scale-105 flex items-center gap-2">
+                    <Faders size={16} weight="bold" />
+                    Customizar
+                </button>
+            </div>
         </div>
       </div>
 
       {/* --- BARRA PRÓXIMA SESSÃO --- */}
-      <div className="w-full bg-[#020617] px-6 py-2 flex flex-col md:flex-row items-center justify-center text-xs md:text-sm gap-3 z-30 mb-4">
+      <div className="w-full bg-[#020617] px-6 py-2 flex flex-col md:flex-row items-center justify-center text-xs md:text-sm gap-3 z-30 mb-4 border-b border-slate-800/30">
         <span className="text-slate-500 font-medium tracking-wide">Sua próxima sessão de estudos:</span>
         <button 
             onClick={handleContinueSession} 
@@ -283,9 +294,6 @@ function App() {
 
                 <div className="hidden lg:w-1/3 h-full flex flex-col justify-end lg:justify-center items-center pointer-events-none mt-6 lg:mt-0">
                     <div className="relative robot-float pointer-events-auto">
-                        {/* IMPORTANTE: O caminho usa ${baseUrl} para funcionar no GitHub Pages 
-                           e assets/modules/robo.png para funcionar localmente.
-                        */}
                         <img 
                             src={`${baseUrl}assets/modules/robo.png`} 
                             onError={(e) => {
@@ -317,7 +325,7 @@ function App() {
          </div>
       </section>
 
-      {/* ================= SELEÇÃO DE MÓDULOS (INFINITO) ================= */}
+      {/* ================= SELEÇÃO DE MÓDULOS (SWIPER) ================= */}
       <div className="w-full bg-[#020617] pt-0 pb-12 relative z-30">
         <div className="w-full max-w-7xl mx-auto px-4 mt-10">
             <Swiper
@@ -345,7 +353,6 @@ function App() {
                                     </div>
                                 </div>
                                 <div className="robot-wrapper">
-                                    {/* ROBÔ NO CARD */}
                                     <img 
                                         src={`${baseUrl}assets/modules/robo.png`} 
                                         onError={(e) => e.target.style.display='none'} 
@@ -361,9 +368,10 @@ function App() {
             </Swiper>
         </div>
 
-        {/* ================= GRID DE SUBMÓDULOS (LINKS) ================= */}
+        {/* ================= GRID DE SUBMÓDULOS ================= */}
+        {/* Correção: max-w-7xl para alinhar com Hero e Footer */}
         <div className="w-full bg-slate-900/50 border-t border-slate-800 min-h-[400px] py-12 relative z-40 mt-6">
-            <div className="max-w-6xl mx-auto px-6" id="submodules-section">
+            <div className="max-w-7xl mx-auto px-6" id="submodules-section">
                 
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 border-b border-slate-800 pb-6">
                     <div>
@@ -386,46 +394,66 @@ function App() {
                             <a 
                                 key={idx}
                                 href={sub.link || "#"}
-                                className="submodule-card rounded-xl p-5 relative overflow-hidden group cursor-pointer block text-left"
                                 onClick={() => setLastSession({
                                     moduleId: activeModuleId,
                                     submoduleIndex: idx,
                                     title: sub.title
                                 })}
+                                id={`submodule-${activeModuleId}-${idx}`}
+                                className="group relative w-full h-48 rounded-2xl overflow-hidden shadow-2xl cursor-pointer bg-gradient-to-r from-[#5B1B6F] via-[#4B237C] to-[#1F2A5A] transition-all duration-300 hover:scale-[1.01] hover:shadow-purple-900/30 border border-white/5"
                             >
-                                {/* WALLPAPER DO CARD - CAMINHO CORRIGIDO */}
-                                <img 
-                                    src={`${baseUrl}assets/wallpapers/mod-${activeModuleId}-sub-${idx}.png`} 
-                                    className="card-bg-image" 
-                                    alt="Background"
-                                    onError={(e) => {
-                                        e.target.src = `https://source.unsplash.com/featured/?medical,abstract&sig=${idx}`
+                                {/* 🔴 CAMADA 1: FORMA GEOMÉTRICA VERMELHA */}
+                                <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-52 h-52 rounded-full bg-[#9B0D1A] blur-[1px] opacity-90 shadow-2xl z-0 transition-transform duration-700 group-hover:scale-110"></div>
+
+                                {/* 🤖 CAMADA 2: O ROBÔ */}
+                                <img
+                                    src={`${baseUrl}assets/modules/robo.png`} 
+                                    alt="Robô Cofbot"
+                                    className="absolute left-1 bottom-1 h-[80%] w-auto object-contain z-10 filter drop-shadow-xl transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6 origin-bottom"
+                                    onError={(e) => e.target.style.display='none'}
+                                />
+
+                                {/* 🧬 CAMADA 3: TEXTURA ABSTRATA */}
+                                <div 
+                                    className="absolute right-0 top-0 h-full w-2/3 opacity-10 mix-blend-overlay z-0 bg-contain bg-no-repeat bg-right-top"
+                                    style={{ 
+                                        backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E")` 
                                     }}
                                 />
-                                <div className="card-overlay"></div>
                                 
-                                <div className="card-content-wrapper">
-                                    <div className="flex items-start justify-between mb-3 relative z-10">
-                                        <span className="text-[10px] font-bold text-white bg-blue-600/80 px-2 py-0.5 rounded uppercase tracking-wider">
-                                            {`SUBMÓDULO ${idx + 1}`}
+                                {/* 🌫️ CAMADA FOSCA (MATTE) */}
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#0f102a]/60 to-[#0f102a]/95 z-10 backdrop-blur-[1px]"></div>
+
+                                {/* ✍️ CAMADA 4: CONTEÚDO */}
+                                <div className="relative z-20 ml-[38%] h-full flex flex-col justify-center pr-4 py-3">
+                                    
+                                    <div className="flex items-center gap-2 mb-1.5">
+                                        <span className="text-[9px] font-bold text-blue-200 bg-blue-900/40 px-2 py-0.5 rounded border border-blue-500/30 uppercase tracking-widest">
+                                            {`Submódulo ${idx + 1}`}
                                         </span>
                                     </div>
+
+                                    <h3 className="text-xl font-bold text-white leading-tight drop-shadow-md mb-2 tracking-tight group-hover:text-blue-100 transition-colors">
+                                        {sub.title}
+                                    </h3>
                                     
-                                    <div className="play-overlay">
-                                       <Play size={32} weight="fill" color="white" />
-                                    </div>
-                                    
-                                    <div className="mt-auto relative z-10">
-                                        <h4 className="text-lg font-bold text-white mb-1 leading-tight drop-shadow-md group-hover:text-blue-400 transition-colors">
-                                            {sub.title}
-                                        </h4>
-                                        <div className="flex items-center justify-between mt-2">
-                                            <p className="text-slate-300 text-xs line-clamp-1 opacity-80 w-2/3">{sub.desc}</p>
-                                            <div className="flex items-center gap-1 text-xs font-medium text-white bg-black/60 px-2 py-1 rounded backdrop-blur-md">
-                                                <Clock weight="fill" /> 
-                                                <span>{sub.duration}</span>
-                                            </div>
+                                    <p className="text-blue-100/70 text-[10px] font-medium line-clamp-2 leading-relaxed mb-3">
+                                        {sub.desc || "Domine os conceitos fundamentais com metodologia focada."}
+                                    </p>
+
+                                    <div className="flex items-center gap-3 mt-auto">
+                                        <div className="flex items-center gap-1 text-[10px] font-bold text-white/90 bg-black/20 px-2.5 py-1 rounded-full backdrop-blur-sm border border-white/10">
+                                            <Clock weight="fill" className="text-blue-400" size={12} />
+                                            <span>{sub.duration}</span>
                                         </div>
+                                    </div>
+                                </div>
+
+                                {/* 🆕 CAMADA 5: LOGO USA */}
+                                <div className="absolute top-3 right-4 z-20 opacity-80 group-hover:opacity-100 transition-opacity">
+                                    <div className="flex items-center gap-0.5 font-bold text-lg tracking-tighter select-none">
+                                        <span className="text-slate-300">MedCof</span>
+                                        <span className="text-red-500">USA</span>
                                     </div>
                                 </div>
                             </a>
